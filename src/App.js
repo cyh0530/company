@@ -183,6 +183,19 @@ function App() {
         >
           <h3 style={{ fontSize: 30 }}>Company List</h3>
         </Header>
+        <div style={{ textAlign: "center" }}>
+          <p>
+            Data are extracted from{" "}
+            <a
+              href="https://docs.google.com/spreadsheets/d/1xnufjjVD6_CpvanNPJa36XaycK2VMFoRlLE4OdWBQq4/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </a>
+            . Delay up to 5 minutes
+          </p>
+        </div>
         <Content style={{ padding: 10 }}>
           <div style={{ maxWidth: "75%", margin: "0 auto" }}>
             <Space direction="vertical">
@@ -198,16 +211,6 @@ function App() {
             </Space>
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Data are extracted from{" "}
-          <a
-            href="https://docs.google.com/spreadsheets/d/1xnufjjVD6_CpvanNPJa36XaycK2VMFoRlLE4OdWBQq4/edit?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            here
-          </a>
-        </Footer>
       </Layout>
     </Layout>
   );
