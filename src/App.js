@@ -129,22 +129,30 @@ function App() {
       key: "Apply Website",
       dataIndex: "Apply Website",
       title: "Apply Website",
-      render: (link) => (
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          Apply
-        </a>
-      ),
+      render: (link) => {
+        if (link) {
+          return (
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              Apply
+            </a>
+          );
+        }
+      },
       width: 150,
     },
     {
       key: "Student Apply",
       dataIndex: "Student Apply",
       title: "Student Apply",
-      render: (link) => (
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          Student Apply
-        </a>
-      ),
+      render: (link) => {
+        if (link) {
+          return (
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              Student Apply
+            </a>
+          );
+        }
+      },
       width: 150,
     },
   ];
