@@ -41,24 +41,24 @@ function App() {
           });
         });
 
-        let allData = {}
+        let allData = {};
         tabs.forEach((value, id) => {
           const tableBody = viewport.querySelector(`#${id} table tbody`);
           const columnsNameRow = tableBody.childNodes[0];
           let columnsName = [];
-          let data = []
+          let data = [];
           for (let i = 0; i < columnsNameRow.childNodes.length; i++) {
             columnsName.push(columnsNameRow.childNodes[i].innerText);
           }
           for (let i = 1; i < tableBody.childNodes.length; i++) {
             const tr = tableBody.childNodes[i];
-            let rowData = {}
+            let rowData = {};
             for (let j = 1; j < tr.childNodes.length; j++) {
               const td = tr.childNodes[j];
               const text = td.innerText;
-              rowData[columnsName[j]] = text
+              rowData[columnsName[j]] = text;
             }
-            data.push(rowData)
+            data.push(rowData);
           }
           allData[id] = data;
         });
@@ -68,7 +68,7 @@ function App() {
         });
         setMenu(tabList);
         setAllData(allData);
-        setDataSource(allData["0"])
+        setDataSource(allData["0"]);
         // changeTab(tabs.values().next().value);
         // quietFetch(tabs);
       } catch (err) {
@@ -83,7 +83,7 @@ function App() {
       setDataSource(allData[tab.key]);
       return;
     } else {
-      message.error("Sorry, there's an error occurred. Please try again later")
+      message.error("Sorry, there's an error occurred. Please try again later");
     }
     // setTableLoading(true);
     // try {
@@ -112,6 +112,7 @@ function App() {
         </a>
       ),
       width: 150,
+      defaultSortOrder: "ascend",
     },
     {
       key: "CS Affiliated",
@@ -178,7 +179,7 @@ function App() {
           style={{
             textAlign: "center",
             padding: 10,
-            backgroundColor: "rgba(255, 255, 255, 0.3)",
+            backgroundColor: "rgb(240, 242, 245)",
           }}
         >
           <h3 style={{ fontSize: 30 }}>Company List</h3>
