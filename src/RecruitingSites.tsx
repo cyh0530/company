@@ -1,6 +1,7 @@
-import React from "react";
-
-const RecruitingSites = ({careerSites}: {careerSites: any[]}) => {
+interface IProps {
+  careerSites: {Name: string, URL: string}[];
+}
+const RecruitingSites = ({careerSites}: IProps) => {
   // const careerSites = [
   //   {
   //     name: "LinkedIn",
@@ -21,7 +22,6 @@ const RecruitingSites = ({careerSites}: {careerSites: any[]}) => {
   //   },
   //   { name: "Canvas", url: "https://www.canvas.com/app/discover/jobs" },
   // ];
-console.log(careerSites)
   return (
     <div>
       <ul style={{ fontSize: 18 }}>
