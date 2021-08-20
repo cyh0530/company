@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { HashRouter, Switch, Route, Link } from "react-router-dom";
 import { Table, Layout, Menu, message } from "antd";
 import axios from "axios";
 import { parse } from "node-html-parser";
 import { decode } from "html-entities";
+import Navigation from "./components/Navigation";
 import RecruitingSites from "./RecruitingSites";
 import { dataURL, jobColumns } from "./constants";
 
@@ -102,20 +104,6 @@ function App() {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        style={{
-          overflow: "auto",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-        }}
-      >
-        <Menu onClick={changeTab} defaultSelectedKeys={["0"]} theme="light">
-          {menu.map((tab) => (
-            <Menu.Item key={tab.id}>{tab.name}</Menu.Item>
-          ))}
-        </Menu>
-      </Sider>
       <Layout style={{ marginLeft: 200 }}>
         <Header
           style={{
@@ -154,10 +142,12 @@ function App() {
                 }}
               />
             )}
+    <HashRouter>
+        <Navigation menu={menu} />
           </div>
         </Content>
       </Layout>
-    </Layout>
+    </HashRouter>
   );
 }
 
