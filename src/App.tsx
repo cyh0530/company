@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
-import { HashRouter, Switch, Route, Link } from "react-router-dom";
-import { Table, Layout, Menu, message } from "antd";
+import { HashRouter, Switch, Route } from "react-router-dom";
+import { Layout } from "antd";
 import axios from "axios";
 import { parse } from "node-html-parser";
 import { decode } from "html-entities";
+import Category from "./Category";
 import Navigation from "./components/Navigation";
 import RecruitingSites from "./RecruitingSites";
-import { dataURL, jobColumns } from "./constants";
+import { dataURL, spreadsheetURL } from "./constants";
 
 function App() {
-  const { Content, Sider, Header } = Layout;
+  const { Content, Header } = Layout;
   const [menu, setMenu] = useState<any[]>([]);
   const [allData, setAllData] = useState<any>({});
-  const [dataSource, setDataSource] = useState([]);
-  const [currentTab, setCurrentTab] = useState("0");
   const [careerSites, setCareerSites] = useState<any[]>([]);
 
   useEffect(() => {
@@ -72,7 +71,8 @@ function App() {
           if (id === "0") {
             setCareerSites(data);
           } else {
-            allData[id] = data;
+            const category = value.name;
+            allData[category] = data;
           }
         });
         let tabList: any[] = [];
@@ -81,9 +81,6 @@ function App() {
         });
         setMenu(tabList);
         setAllData(allData);
-        setDataSource(allData[mainTabId]);
-        // changeTab(tabs.values().next().value);
-        // quietFetch(tabs);
       } catch (err) {
         console.error(err);
       }
@@ -91,61 +88,46 @@ function App() {
     wrapper();
   }, []);
 
-  const changeTab = async (tab: any) => {
-    if (tab.key === "0") {
-      setCurrentTab(tab.key);
-    } else if (allData[tab.key]) {
-      setDataSource(allData[tab.key]);
-      setCurrentTab(tab.key);
-    } else {
-      message.error("Sorry, there's an error occurred. Please try again later");
-    }
-  };
-
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Layout style={{ marginLeft: 200 }}>
-        <Header
-          style={{
-            textAlign: "center",
-            padding: 10,
-            backgroundColor: "rgb(240, 242, 245)",
-          }}
-        >
-          <h3 style={{ fontSize: 30 }}>Company List</h3>
-        </Header>
-        <div style={{ textAlign: "center" }}>
-          <p>
-            Data are extracted from{" "}
-            <a
-              href="https://docs.google.com/spreadsheets/d/1xnufjjVD6_CpvanNPJa36XaycK2VMFoRlLE4OdWBQq4/edit?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              here
-            </a>
-            . Delay up to 5 minutes
-          </p>
-        </div>
-        <Content style={{ padding: 10 }}>
-          <div style={{ maxWidth: "75%", margin: "0 auto" }}>
-            {currentTab === "0" ? (
-              <RecruitingSites careerSites={careerSites} />
-            ) : (
-              <Table
-                columns={jobColumns}
-                dataSource={dataSource}
-                pagination={{
-                  total: dataSource.length,
-                  pageSize: dataSource.length,
-                  hideOnSinglePage: true,
-                }}
-              />
-            )}
     <HashRouter>
+      <Layout style={{ minHeight: "100vh" }}>
         <Navigation menu={menu} />
+        <Layout style={{ marginLeft: 200 }}>
+          <Header
+            style={{
+              textAlign: "center",
+              padding: 10,
+              backgroundColor: "rgb(240, 242, 245)",
+            }}
+          >
+            <h3 style={{ fontSize: 30 }}>Company List</h3>
+          </Header>
+          <div style={{ textAlign: "center" }}>
+            <p>
+              Data are extracted from{" "}
+              <a
+                href={spreadsheetURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                here
+              </a>
+              . Delay up to 5 minutes
+            </p>
           </div>
-        </Content>
+          <Content style={{ padding: 10 }}>
+            <div style={{ maxWidth: "75%", margin: "0 auto" }}>
+              <Switch>
+                <Route exact path={["/", "/0"]}>
+                  <RecruitingSites careerSites={careerSites} />
+                </Route>
+                <Route path="/:category">
+                  <Category data={allData} />
+                </Route>
+              </Switch>
+            </div>
+          </Content>
+        </Layout>
       </Layout>
     </HashRouter>
   );

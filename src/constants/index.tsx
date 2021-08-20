@@ -5,6 +5,8 @@ import { DownOutlined } from "@ant-design/icons";
 export const dataURL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vScDAvmEaLUZS4yWIvVLkDsb3vZjy_3vJvllPxtrseZx0G8gphZSngeKk-x16-vnthmoHORXj-3GApx/pubhtml";
 
+export const spreadsheetURL =
+  "https://docs.google.com/spreadsheets/d/1xnufjjVD6_CpvanNPJa36XaycK2VMFoRlLE4OdWBQq4/edit?usp=sharing";
 const careerSites = [
   {
     name: "LinkedIn",
@@ -49,7 +51,9 @@ const careerSitesMenu = (company: string) => (
     ))}
   </Menu>
 );
-interface Company {
+
+const appliedRecord = localStorage.getItem("record") || []
+export interface ICompany {
   key: number;
   Company: string;
   "Official Website": string;
@@ -58,7 +62,7 @@ interface Company {
   "Student Apply": string;
 }
 
-export const jobColumns: ColumnsType<Company> = [
+export const jobColumns: ColumnsType<ICompany> = [
   {
     key: "Company",
     dataIndex: "Company",
@@ -133,4 +137,12 @@ export const jobColumns: ColumnsType<Company> = [
     },
     width: 150,
   },
+  {
+    key: "Apply Record",
+    dataIndex: "Apply Record",
+    title: "Apply Record",
+    // render: (text, record) => {
+
+    // }
+  }
 ];
