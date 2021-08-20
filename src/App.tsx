@@ -35,13 +35,9 @@ function App() {
         });
 
         const sheetMenu = html.querySelector("#sheet-menu");
-        let mainTabId = 0;
         tabs.forEach((value, id) => {
           const tabName = sheetMenu.querySelector(`#sheet-button-${id}`)
             .childNodes[0].innerText;
-          if (tabName === "Main") {
-            mainTabId = id;
-          }
           tabs.set(id, {
             ...tabs.get(id),
             name: tabName,
@@ -91,7 +87,11 @@ function App() {
   return (
     <HashRouter>
       <Layout style={{ minHeight: "100vh" }}>
-        <Navigation menu={menu} />
+        <Switch>
+          <Route path={["/:category", "/"]}>
+            <Navigation menu={menu} />
+          </Route>
+        </Switch>
         <Layout style={{ marginLeft: 200 }}>
           <Header
             style={{

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Table } from "antd";
 import { useParams } from "react-router-dom";
 import { jobColumns, ICompany } from "./constants";
@@ -16,9 +16,21 @@ const Category = ({ data }: IProps) => {
     if (data[category]) {
       setDataSource(data[category]);
     } else {
-      setDataSource([])
+      setDataSource([]);
     }
-  }, [category]);
+  }, [category, data]);
+
+  const reloadTable = useCallback(() => {
+    setDataSource((state) => [...state]);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("storage", reloadTable);
+    reloadTable();
+    return () => {
+      window.removeEventListener("storage", reloadTable);
+    };
+  }, [reloadTable]);
 
   return (
     <Table

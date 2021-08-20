@@ -1,5 +1,5 @@
 import { ColumnsType } from "antd/es/table";
-import { Menu, Dropdown, Button } from "antd";
+import { Menu, Dropdown, Button, Checkbox } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
 export const dataURL =
@@ -52,14 +52,14 @@ const careerSitesMenu = (company: string) => (
   </Menu>
 );
 
-const appliedRecord = localStorage.getItem("record") || []
 export interface ICompany {
   key: number;
   Company: string;
   "Official Website": string;
   "What they do": string;
-  "Apply Website": string;
-  "Student Apply": string;
+  Careers: string;
+  Internship: string;
+  applied: boolean;
 }
 
 export const jobColumns: ColumnsType<ICompany> = [
@@ -80,12 +80,6 @@ export const jobColumns: ColumnsType<ICompany> = [
     sorter: (a, b) => a.Company.localeCompare(b.Company),
     defaultSortOrder: "ascend",
   },
-  // {
-  //   key: "CS Affiliated",
-  //   dataIndex: "CS Affiliated",
-  //   title: "UW CS Affiliates",
-  //   width: 150,
-  // },
   {
     key: "What they do",
     dataIndex: "What they do",
@@ -93,14 +87,14 @@ export const jobColumns: ColumnsType<ICompany> = [
     width: 400,
   },
   {
-    key: "Apply Website",
-    dataIndex: "Apply Website",
-    title: "Apply Website",
+    key: "Careers",
+    dataIndex: "Careers",
+    title: "Careers",
     render: (link) => {
       if (link) {
         return (
           <a href={link} target="_blank" rel="noopener noreferrer">
-            Apply
+            Careers
           </a>
         );
       }
@@ -109,7 +103,7 @@ export const jobColumns: ColumnsType<ICompany> = [
   },
   {
     key: "Internship",
-    dataIndex: "Student Apply",
+    dataIndex: "Internship",
     title: "Internship Website",
     render: (link) => {
       if (link) {
@@ -129,7 +123,10 @@ export const jobColumns: ColumnsType<ICompany> = [
     render: (text, record) => {
       return (
         <Dropdown overlay={careerSitesMenu(record.Company)}>
-          <Button className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          <Button
+            className="ant-dropdown-link"
+            onClick={(e) => e.preventDefault()}
+          >
             Career Sites <DownOutlined />
           </Button>
         </Dropdown>
@@ -138,11 +135,38 @@ export const jobColumns: ColumnsType<ICompany> = [
     width: 150,
   },
   {
-    key: "Apply Record",
-    dataIndex: "Apply Record",
-    title: "Apply Record",
-    // render: (text, record) => {
-
-    // }
-  }
+    key: "applied",
+    dataIndex: "applied",
+    title: "Applied",
+    render: (applied, record) => {
+      const appliedRecord = getAppliedRecord();
+      const updateApplied = (e: any) => {
+        let recordSet = new Set(appliedRecord);
+        if (recordSet.has(record.Company)) {
+          recordSet.delete(record.Company);
+        } else {
+          recordSet.add(record.Company);
+        }
+        const newAppliedRecord = Array.from(recordSet);
+        localStorage.setItem("applied", JSON.stringify(newAppliedRecord));
+        window.dispatchEvent(new Event("storage"));
+      };
+      return (
+        <Checkbox
+          onChange={updateApplied}
+          checked={appliedRecord.includes(record.Company)}
+        >
+          Applied
+        </Checkbox>
+      );
+    },
+    width: 150,
+  },
 ];
+
+const getAppliedRecord = () => {
+  const rawRecord = localStorage.getItem("applied");
+  let appliedRecord: any[] = [];
+  if (rawRecord) appliedRecord = JSON.parse(rawRecord);
+  return appliedRecord;
+};

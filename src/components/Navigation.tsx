@@ -7,7 +7,7 @@ interface IProps {
   menu: any[];
 }
 const Navigation = ({ menu }: IProps) => {
-  const {category} = useParams<{category: string}>();
+  const { category } = useParams<{ category: string }>();
 
   return (
     <Sider
@@ -18,14 +18,12 @@ const Navigation = ({ menu }: IProps) => {
         left: 0,
       }}
     >
-      <Menu
-        selectedKeys={[category]}
-        defaultSelectedKeys={["0"]}
-        theme="light"
-      >
+      <Menu selectedKeys={[category || "Career Sites"]} defaultSelectedKeys={["Career Sites"]} theme="light">
         {menu.map((tab) => (
-          <Menu.Item key={tab.id}>
-            <Link to={tab.name !== "Career Sites" ? tab.name : "/"}>{tab.name}</Link>
+          <Menu.Item key={tab.name}>
+            <Link to={tab.name !== "Career Sites" ? tab.name : "/"}>
+              {tab.name}
+            </Link>
           </Menu.Item>
         ))}
       </Menu>
