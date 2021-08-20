@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table, Layout, Menu, message } from "antd";
 import axios from "axios";
 import { parse } from "node-html-parser";
 import { decode } from "html-entities";
 import RecruitingSites from "./RecruitingSites";
+import { dataURL, jobColumns } from "./constants";
 
 function App() {
   const { Content, Sider, Header } = Layout;
-  const [menu, setMenu] = useState([]);
-  const [allData, setAllData] = useState({});
+  const [menu, setMenu] = useState<any[]>([]);
+  const [allData, setAllData] = useState<any>({});
   const [dataSource, setDataSource] = useState([]);
-  const [currentTab, setCurrentTab] = useState('0');
-  const [careerSites, setCareerSites] = useState([]);
-
-  const htmlURL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vScDAvmEaLUZS4yWIvVLkDsb3vZjy_3vJvllPxtrseZx0G8gphZSngeKk-x16-vnthmoHORXj-3GApx/pubhtml";
+  const [currentTab, setCurrentTab] = useState("0");
+  const [careerSites, setCareerSites] = useState<any[]>([]);
 
   useEffect(() => {
     const wrapper = async () => {
       const tabs = new Map();
       try {
         const res = await axios
-          .get(htmlURL)
+          .get(dataURL)
           .then((res) => {
             return res.data;
           })
@@ -31,12 +29,12 @@ function App() {
         const html = parse(res);
 
         const viewport = html.querySelector("#sheets-viewport");
-        viewport.childNodes.forEach((node) => {
+        viewport.childNodes.forEach((node: any) => {
           tabs.set(node.id, { id: node.id, key: node.id });
         });
 
         const sheetMenu = html.querySelector("#sheet-menu");
-        let mainTabId;
+        let mainTabId = 0;
         tabs.forEach((value, id) => {
           const tabName = sheetMenu.querySelector(`#sheet-button-${id}`)
             .childNodes[0].innerText;
@@ -49,7 +47,7 @@ function App() {
           });
         });
 
-        let allData = {};
+        let allData: any = {};
         tabs.forEach((value, id) => {
           const tableBody = viewport.querySelector(`#${id} table tbody`);
           const columnsNameRow = tableBody.childNodes[0];
@@ -60,7 +58,7 @@ function App() {
           }
           for (let i = 1; i < tableBody.childNodes.length; i++) {
             const tr = tableBody.childNodes[i];
-            let rowData = {};
+            let rowData: any = {};
             for (let j = 1; j < tr.childNodes.length; j++) {
               const td = tr.childNodes[j];
               const text = td.innerText;
@@ -75,7 +73,7 @@ function App() {
             allData[id] = data;
           }
         });
-        let tabList = [];
+        let tabList: any[] = [];
         tabs.forEach((tab) => {
           tabList.push(tab);
         });
@@ -91,7 +89,7 @@ function App() {
     wrapper();
   }, []);
 
-  const changeTab = async (tab) => {
+  const changeTab = async (tab: any) => {
     if (tab.key === "0") {
       setCurrentTab(tab.key);
     } else if (allData[tab.key]) {
@@ -162,66 +160,5 @@ function App() {
     </Layout>
   );
 }
-
-const jobColumns = [
-  {
-    key: "Company",
-    dataIndex: "Company",
-    title: "Company",
-    render: (text, record) => (
-      <a
-        href={record["Official Website"]}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {text}
-      </a>
-    ),
-    width: 150,
-    defaultSortOrder: "ascend",
-  },
-  // {
-  //   key: "CS Affiliated",
-  //   dataIndex: "CS Affiliated",
-  //   title: "UW CS Affiliates",
-  //   width: 150,
-  // },
-  {
-    key: "What they do",
-    dataIndex: "What they do",
-    title: "What they do",
-    width: 400,
-  },
-  {
-    key: "Apply Website",
-    dataIndex: "Apply Website",
-    title: "Apply Website",
-    render: (link) => {
-      if (link) {
-        return (
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            Apply
-          </a>
-        );
-      }
-    },
-    width: 150,
-  },
-  {
-    key: "Student Apply",
-    dataIndex: "Student Apply",
-    title: "Student Apply",
-    render: (link) => {
-      if (link) {
-        return (
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            Student Apply
-          </a>
-        );
-      }
-    },
-    width: 150,
-  },
-];
 
 export default App;

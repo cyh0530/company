@@ -1,6 +1,6 @@
 import React from "react";
 
-const RecruitingSites = ({careerSites}) => {
+const RecruitingSites = ({careerSites}: {careerSites: any[]}) => {
   // const careerSites = [
   //   {
   //     name: "LinkedIn",
