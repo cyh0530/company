@@ -41,6 +41,7 @@ const Category = ({ data }: IProps) => {
         pageSize: dataSource.length,
         hideOnSinglePage: true,
       }}
+      scroll={{x: true}}
     />
   );
 };

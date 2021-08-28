@@ -116,7 +116,7 @@ function App() {
             </p>
           </div>
           <Content style={{ padding: 10 }}>
-            <div style={{ maxWidth: "75%", margin: "0 auto" }}>
+            <div style={{ width: "95%", maxWidth: "1280px", margin: "0 auto" }}>
               <Switch>
                 <Route exact path={["/", "/0"]}>
                   <RecruitingSites careerSites={careerSites} />

@@ -67,6 +67,7 @@ export const jobColumns: ColumnsType<ICompany> = [
     key: "Company",
     dataIndex: "Company",
     title: "Company",
+    fixed: "left",
     render: (text, record) => (
       <a
         href={record["Official Website"]}
