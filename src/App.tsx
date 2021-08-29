@@ -7,7 +7,6 @@ import { decode } from "html-entities";
 import Category from "./Category";
 import Navigation from "./components/Navigation";
 import RecruitingSites from "./RecruitingSites";
-import { initGA } from "./utils/ga";
 import { dataURL, spreadsheetURL } from "./constants";
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
   const [careerSites, setCareerSites] = useState<any[]>([]);
 
   useEffect(() => {
-    initGA();
   }, []);
 
   useEffect(() => {
