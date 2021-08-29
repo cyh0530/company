@@ -7,6 +7,7 @@ import { decode } from "html-entities";
 import Category from "./Category";
 import Navigation from "./components/Navigation";
 import RecruitingSites from "./RecruitingSites";
+import { initGA, logPageView } from "./utils/ga";
 import { dataURL, spreadsheetURL } from "./constants";
 
 function App() {
@@ -14,6 +15,14 @@ function App() {
   const [menu, setMenu] = useState<any[]>([]);
   const [allData, setAllData] = useState<any>({});
   const [careerSites, setCareerSites] = useState<any[]>([]);
+
+  useEffect(() => {
+    initGA()
+  }, [])
+
+  useEffect(() => {
+    logPageView()
+  }, [window.location.pathname])
 
   useEffect(() => {
     const wrapper = async () => {
