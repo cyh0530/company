@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route, useHistory } from "react-router-dom";
 import { Layout } from "antd";
 import axios from "axios";
 import { parse } from "node-html-parser";
@@ -15,14 +15,17 @@ function App() {
   const [menu, setMenu] = useState<any[]>([]);
   const [allData, setAllData] = useState<any>({});
   const [careerSites, setCareerSites] = useState<any[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
-    initGA()
-  }, [])
+    initGA();
+  }, []);
 
   useEffect(() => {
-    logPageView()
-  }, [window.location.pathname])
+    return history.listen((location) => {
+      logPageView(location.pathname);
+    });
+  }, [history]);
 
   useEffect(() => {
     const wrapper = async () => {

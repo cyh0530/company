@@ -5,9 +5,9 @@ export const initGA = () => {
   ReactGA.initialize("G-CWMKLHSQF3");
 };
 
-export const logPageView = () => {
-  ReactGA.set({ page: window.location.pathname });
-  ReactGA.pageview(window.location.pathname);
+export const logPageView = (pathname: string) => {
+  ReactGA.set({ page: pathname });
+  ReactGA.pageview(pathname);
 };
 
 export const logEvent = (category = "", action = "") => {
