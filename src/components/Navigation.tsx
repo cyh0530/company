@@ -1,5 +1,6 @@
 import { Layout, Menu } from "antd";
 import { Link, useParams } from "react-router-dom";
+import { usePageViews } from "../hooks";
 
 const { Sider } = Layout;
 
@@ -8,6 +9,7 @@ interface IProps {
 }
 const Navigation = ({ menu }: IProps) => {
   const { category } = useParams<{ category: string }>();
+  usePageViews();
 
   return (
     <Sider

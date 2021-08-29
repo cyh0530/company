@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HashRouter, Switch, Route, useHistory } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import { Layout } from "antd";
 import axios from "axios";
 import { parse } from "node-html-parser";
@@ -7,7 +7,7 @@ import { decode } from "html-entities";
 import Category from "./Category";
 import Navigation from "./components/Navigation";
 import RecruitingSites from "./RecruitingSites";
-import { initGA, logPageView } from "./utils/ga";
+import { initGA } from "./utils/ga";
 import { dataURL, spreadsheetURL } from "./constants";
 
 function App() {
@@ -15,17 +15,10 @@ function App() {
   const [menu, setMenu] = useState<any[]>([]);
   const [allData, setAllData] = useState<any>({});
   const [careerSites, setCareerSites] = useState<any[]>([]);
-  const history = useHistory();
 
   useEffect(() => {
     initGA();
   }, []);
-
-  useEffect(() => {
-    return history.listen((location) => {
-      logPageView(location.pathname);
-    });
-  }, [history]);
 
   useEffect(() => {
     const wrapper = async () => {
