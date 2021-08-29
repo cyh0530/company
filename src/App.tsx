@@ -7,16 +7,16 @@ import { decode } from "html-entities";
 import Category from "./Category";
 import Navigation from "./components/Navigation";
 import RecruitingSites from "./RecruitingSites";
+import { initGA } from "./utils/ga";
 import { dataURL, spreadsheetURL } from "./constants";
+
+initGA();
 
 function App() {
   const { Content, Header } = Layout;
   const [menu, setMenu] = useState<any[]>([]);
   const [allData, setAllData] = useState<any>({});
   const [careerSites, setCareerSites] = useState<any[]>([]);
-
-  useEffect(() => {
-  }, []);
 
   useEffect(() => {
     const wrapper = async () => {
