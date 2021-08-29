@@ -4,8 +4,8 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    name: Build
+  build-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,13 +23,6 @@ jobs:
         run: yarn ci
       - name: Build project
         run: yarn build
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
