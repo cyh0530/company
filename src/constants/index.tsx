@@ -1,5 +1,5 @@
 import { ColumnsType } from "antd/es/table";
-import { Menu, Dropdown, Button, Checkbox } from "antd";
+import { Menu, Dropdown, Button, Checkbox, Input } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
 export const dataURL =
@@ -139,7 +139,7 @@ export const jobColumns: ColumnsType<ICompany> = [
     key: "applied",
     dataIndex: "applied",
     title: "Applied",
-    render: (applied, record) => {
+    render: (_, record) => {
       const appliedRecord = getAppliedRecord();
       const updateApplied = (e: any) => {
         let recordSet = new Set(appliedRecord);
@@ -163,6 +163,24 @@ export const jobColumns: ColumnsType<ICompany> = [
     },
     width: 150,
   },
+  {
+    key: "note",
+    dataIndex: "note",
+    title: "Note",
+    render: (_, record) => {
+      const noteRecord = getNoteRecord();
+      const updateNote = (e: any) => {
+        const value = e.target.value
+        noteRecord[record.Company] = value
+        localStorage.setItem("note", JSON.stringify(noteRecord))
+        window.dispatchEvent(new Event("storage"))
+      };
+      return (
+        <Input value={noteRecord[record.Company] || ""} onChange={updateNote} />
+      );
+    },
+    width: 200
+  },
 ];
 
 const getAppliedRecord = () => {
@@ -170,4 +188,11 @@ const getAppliedRecord = () => {
   let appliedRecord: any[] = [];
   if (rawRecord) appliedRecord = JSON.parse(rawRecord);
   return appliedRecord;
+};
+
+const getNoteRecord = () => {
+  const rawRecord = localStorage.getItem("note");
+  let noteRecord: any = {};
+  if (rawRecord) noteRecord = JSON.parse(rawRecord);
+  return noteRecord;
 };
